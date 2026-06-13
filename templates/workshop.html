@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% set title = "技能工坊" %}
+{% set current_page = "workshop" %}
+
+{% block content %}
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+            <div>
+                <span class="level-badge" style="font-size: 14px; padding: 4px 12px;">Lv.{{ user.level }}</span>
+                <span style="font-weight: 600; margin-left: 12px;">{{ user.name }}</span>
+            </div>
+            <span style="font-size: 13px; color: var(--text-secondary);">{{ user.points }} / 3000 经验值</span>
+        </div>
+        <div class="experience-bar">
+            <div class="experience-fill" style="width: {{ (user.points / 3000) * 100 }}%;"></div>
+        </div>
+    </div>
+    
+    <div>
+        <div class="section-title">
+            <i class="fas fa-tree"></i>
+            <span>技能树</span>
+        </div>
+        <div class="glass-card">
+            <div class="skill-tree">
+                {% for skill in skills %}
+                <div class="skill-node {{ 'unlocked' if skill.unlocked else 'locked' }}">
+                    <div class="skill-icon" style="background: {{ skill.color }}20;">
+                        {% if skill.name == '产品思维' %}<i class="fas fa-lightbulb" style="color: {{ skill.color }};"></i>{% endif %}
+                        {% if skill.name == '数据分析' %}<i class="fas fa-chart-bar" style="color: {{ skill.color }};"></i>{% endif %}
+                        {% if skill.name == '用户研究' %}<i class="fas fa-users" style="color: {{ skill.color }};"></i>{% endif %}
+                        {% if skill.name == '竞品分析' %}<i class="fas fa-search" style="color: {{ skill.color }};"></i>{% endif %}
+                        {% if skill.name == '活动策划' %}<i class="fas fa-calendar-alt" style="color: {{ skill.color }};"></i>{% endif %}
+                        {% if skill.name == '文案写作' %}<i class="fas fa-pen" style="color: {{ skill.color }};"></i>{% endif %}
+                    </div>
+                    <div class="skill-name">{{ skill.name }}</div>
+                    <div class="skill-level">{{ skill.level }}/{{ skill.max_level }}</div>
+                    {% if skill.unlocked %}
+                    <div style="position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); display: flex; gap: 2px;">
+                        {% for i in range(skill.max_level) %}
+                        <div style="width: 6px; height: 6px; border-radius: 50%; background: {{ skill.color if i < skill.level else 'rgba(255,255,255,0.2)' }};"></div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div style="position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-lock" style="color: rgba(255,255,255,0.3);"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <div style="margin-top: 32px;">
+        <div class="section-title">
+            <i class="fas fa-rocket"></i>
+            <span>项目推荐</span>
+        </div>
+        {% for project in projects %}
+        <div class="glass-card project-card">
+            <div class="project-header">
+                <div class="project-name">{{ project.name }}</div>
+                <span class="project-level">{{ project.level }}</span>
+            </div>
+            <div class="project-difficulty">{{ project.difficulty }}</div>
+            <div class="project-skills">
+                {% for skill in project.skills %}
+                <span class="project-skill">{{ skill }}</span>
+                {% endfor %}
+            </div>
+            {% if project.progress > 0 %}
+            <div style="margin-top: 12px;">
+                <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">
+                    <span>完成进度</span>
+                    <span>{{ project.progress }}%</span>
+                </div>
+                <div class="experience-bar">
+                    <div class="experience-fill" style="width: {{ project.progress }}%;"></div>
+                </div>
+            </div>
+            {% endif %}
+            <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">
+                {% if project.progress > 0 %}继续学习{% else %}开始挑战{% endif %}
+            </button>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div style="margin-top: 32px;">
+        <div class="section-title">
+            <i class="fas fa-award"></i>
+            <span>作品集</span>
+        </div>
+        <div class="portfolio-wall">
+            {% for item in portfolio %}
+            <div class="glass-card portfolio-card">
+                <div class="portfolio-name">{{ item.name }}</div>
+                <div class="portfolio-type">{{ item.type }}</div>
+                <div class="portfolio-date">{{ item.date }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="skill-modal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-title">产品思维</div>
+            <div style="margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <div style="width: 40px; height: 40px; border-radius: 10px; background: rgba(0, 240, 255, 0.1); display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-lightbulb" style="color: #00F0FF;"></i>
+                    </div>
+                    <div>
+                        <div style="font-weight: 600;">Lv.3 / 5</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">已解锁</div>
+                    </div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                    产品思维是产品运营的核心能力，包括用户需求分析、产品规划、数据分析等方面。
+                </p>
+            </div>
+            <div>
+                <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 12px;">相关课程</h4>
+                <div style="background: rgba(255,255,255,0.03); border-radius: 12px; padding: 12px;">
+                    <div style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+                        <div style="width: 48px; height: 48px; border-radius: 10px; background: linear-gradient(135deg, #00F0FF, #B026FF); display: flex; align-items: center; justify-content: center; font-size: 20px;">📚</div>
+                        <div>
+                            <div style="font-weight: 500; font-size: 13px;">产品思维入门</div>
+                            <div style="font-size: 11px; color: var(--text-secondary);">30分钟 · 免费</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

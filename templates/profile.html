@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% set title = "我的" %}
+{% set current_page = "profile" %}
+
+{% block content %}
+    <div class="glass-card neon-border" style="margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="user-avatar" style="width: 80px; height: 80px; font-size: 32px;">{{ user.name[0] }}</div>
+            <div>
+                <div style="font-size: 24px; font-weight: 700; margin-bottom: 4px;">{{ user.name }}</div>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span class="level-badge" style="font-size: 14px; padding: 4px 12px;">Lv.{{ user.level }}</span>
+                    <span style="color: var(--text-secondary);">{{ user.points }} 星途积分</span>
+                </div>
+            </div>
+        </div>
+        
+        <div style="display: flex; justify-content: space-around; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+            <div style="text-align: center;">
+                <div style="font-size: 20px; font-weight: 700; color: var(--neon-cyan);">12</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">投递岗位</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 20px; font-weight: 700; color: var(--neon-purple);">3</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">面试邀请</div>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-size: 20px; font-weight: 700; color: #4ECDC4;">88%</div>
+                <div style="font-size: 12px; color: var(--text-secondary);">完成度</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+            <h3 style="font-size: 16px; font-weight: 600;">求职目标</h3>
+            <button style="background: none; border: none; color: var(--neon-cyan); font-size: 12px; cursor: pointer;">编辑</button>
+        </div>
+        <div style="background: rgba(0, 240, 255, 0.1); border-radius: 12px; padding: 16px;">
+            <div style="font-weight: 600; margin-bottom: 4px;">{{ user.target_job }}</div>
+            <div style="font-size: 13px; color: var(--text-secondary);">期望薪资：面议</div>
+            <div style="font-size: 13px; color: var(--text-secondary);">工作地点：北京</div>
+        </div>
+    </div>
+    
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">快捷操作</h3>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;">
+            <div style="text-align: center; cursor: pointer;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #4ECDC4, #44A08D); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                    <i class="fas fa-file-text"></i>
+                </div>
+                <div style="font-size: 12px;">简历</div>
+            </div>
+            <div style="text-align: center; cursor: pointer;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #FF6B6B, #FF8E53); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div style="font-size: 12px;">日程</div>
+            </div>
+            <div style="text-align: center; cursor: pointer;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #95E1D3, #7EE8FA); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div style="font-size: 12px;">数据分析</div>
+            </div>
+            <div style="text-align: center; cursor: pointer;">
+                <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #FFE66D, #FFD93D); display: flex; align-items: center; justify-content: center; margin: 0 auto 8px;">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div style="font-size: 12px;">成就</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <h3 style="font-size: 16px; font-weight: 600; margin-bottom: 16px;">设置</h3>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--glass-border); cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-bell" style="color: var(--neon-cyan);"></i>
+                    <span>通知设置</span>
+                </div>
+                <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--glass-border); cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-lock" style="color: #4ECDC4;"></i>
+                    <span>隐私设置</span>
+                </div>
+                <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--glass-border); cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-headphones" style="color: var(--neon-purple);"></i>
+                    <span>帮助与反馈</span>
+                </div>
+                <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 0; cursor: pointer;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-info-circle" style="color: #FFE66D;"></i>
+                    <span>关于我们</span>
+                </div>
+                <i class="fas fa-chevron-right" style="color: var(--text-muted);"></i>
+            </div>
+        </div>
+    </div>
+    
+    <button class="btn btn-secondary" style="width: 100%;">退出登录</button>
+{% endblock %}

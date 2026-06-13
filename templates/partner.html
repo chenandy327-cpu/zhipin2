@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% set title = "搭子星球" %}
+{% set current_page = "partner" %}
+
+{% block content %}
+    <div class="section-title" style="margin-bottom: 24px;">
+        <i class="fas fa-users"></i>
+        <span>伴职行</span>
+    </div>
+    
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
+            <select style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 14px; color: var(--text-primary); font-size: 13px;">
+                <option>目标岗位</option>
+                <option>产品运营</option>
+                <option>用户运营</option>
+                <option>内容运营</option>
+            </select>
+            <select style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 14px; color: var(--text-primary); font-size: 13px;">
+                <option>性格匹配</option>
+                <option>开朗外向</option>
+                <option>沉稳内敛</option>
+                <option>认真负责</option>
+            </select>
+            <select style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 10px; padding: 10px 14px; color: var(--text-primary); font-size: 13px;">
+                <option>求职阶段</option>
+                <option>准备期</option>
+                <option>投递中</option>
+                <option>面试中</option>
+            </select>
+        </div>
+        <button class="btn btn-primary" style="width: 100%;">
+            <i class="fas fa-search"></i>
+            <span>智能匹配</span>
+        </button>
+    </div>
+    
+    <div>
+        <div class="section-title">
+            <i class="fas fa-user-friends"></i>
+            <span>推荐搭子</span>
+        </div>
+        {% for partner in partners %}
+        <div class="glass-card partner-card">
+            <div class="partner-avatar">{{ partner.avatar }}</div>
+            <div>
+                <div style="font-weight: 600; font-size: 15px;">{{ partner.name }}</div>
+                <div class="partner-tags">
+                    {% for tag in partner.tags %}
+                    <span class="partner-tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="partner-match">
+                <div class="partner-match-value">{{ partner.match }}%</div>
+                <div style="font-size: 11px; color: var(--text-secondary);">匹配度</div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div style="margin-top: 32px;">
+        <div class="section-title">
+            <i class="fas fa-comments"></i>
+            <span>我的小组</span>
+        </div>
+        {% for group in groups %}
+        <div class="glass-card group-card">
+            <div class="group-header">
+                <div>
+                    <div class="group-name">{{ group.name }}</div>
+                    <div class="group-members">{{ group.members }} 位成员</div>
+                </div>
+                {% if group.unread > 0 %}
+                <span class="group-unread">{{ group.unread }}</span>
+                {% endif %}
+            </div>
+            <div class="group-last-msg">{{ group.last_msg }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div class="glass-card" style="margin-top: 32px; background: linear-gradient(135deg, rgba(176, 38, 255, 0.15), rgba(0, 240, 255, 0.1));">
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #B026FF, #00F0FF); display: flex; align-items: center; justify-content: center; font-size: 20px;">🤝</div>
+            <div>
+                <div style="font-weight: 600; font-size: 14px;">今日搭子任务</div>
+                <div style="font-size: 13px; color: var(--text-secondary);">互相模拟一道行为面试题</div>
+            </div>
+            <button class="btn btn-primary" style="margin-left: auto;">立即参与</button>
+        </div>
+    </div>
+    
+    <div class="modal-overlay" id="chat-modal">
+        <div class="modal-content" style="position: relative; max-width: 90%; width: 450px; max-height: 600px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+                <div>
+                    <div class="modal-title">产品运营冲刺营</div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">128位成员</div>
+                </div>
+                <button class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div style="height: 300px; overflow-y: auto; margin-bottom: 16px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                <div style="margin-bottom: 12px;">
+                    <div style="font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 4px;">今天 14:30</div>
+                    <div style="display: flex; gap: 8px;">
+                        <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #00F0FF, #B026FF); display: flex; align-items: center; justify-content: center; font-size: 12px;">伴</div>
+                        <div style="background: rgba(176, 38, 255, 0.15); padding: 8px 12px; border-radius: 0 12px 12px 12px; font-size: 13px;">@所有人 今天的面试题已更新，请大家完成练习</div>
+                    </div>
+                </div>
+                <div style="margin-bottom: 12px;">
+                    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+                        <div style="background: linear-gradient(135deg, #00F0FF, #B026FF); padding: 8px 12px; border-radius: 12px 0 12px 12px; font-size: 13px;">收到！今晚开始练习</div>
+                        <div style="width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #4ECDC4, #44A08D); display: flex; align-items: center; justify-content: center; font-size: 12px;">{{ user.name[0] }}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 12px;">
+                <input type="text" placeholder="@伴伴 查岗位/改简历" style="flex: 1; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 20px; padding: 12px 16px; color: var(--text-primary); font-size: 13px;">
+                <button class="btn btn-primary">发送</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}

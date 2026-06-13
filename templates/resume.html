@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% set title = "简历工坊" %}
+{% set current_page = "resume" %}
+
+{% block content %}
+    <div class="section-title" style="margin-bottom: 32px;">
+        <i class="fas fa-file-edit"></i>
+        <span>简智造</span>
+        <span class="level-badge" style="margin-left: auto; background: linear-gradient(135deg, #00F0FF, #B026FF); color: white; font-size: 12px; animation: pulse 2s ease-in-out infinite;">
+            AI鉴真引擎
+        </span>
+    </div>
+    
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <textarea id="resume-text" class="resume-editor" placeholder="请输入你的简历内容...">{{ user.resume_text }}</textarea>
+    </div>
+    
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+            <div class="score-display">
+                <div style="width: 140px; height: 140px; position: relative;">
+                    <svg width="140" height="140" viewBox="0 0 140 140">
+                        <circle cx="70" cy="70" r="60" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"/>
+                        <circle cx="70" cy="70" r="60" fill="none" stroke="url(#scoreGradient)" stroke-width="8" stroke-linecap="round"
+                                stroke-dasharray="377" stroke-dashoffset="{{ 377 - (analysis.uniqueness_score / 100) * 377 }}"/>
+                        <defs>
+                            <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#FF6B6B"/>
+                                <stop offset="100%" stop-color="#4ECDC4"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+                        <div style="font-size: 32px; font-weight: 700; color: #FF6B6B;" id="uniqueness-score">{{ analysis.uniqueness_score }}</div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">独特性评分</div>
+                    </div>
+                </div>
+                <p style="font-size: 12px; color: #4ECDC4; margin-top: 12px;">建议提升至75分以上</p>
+            </div>
+            
+            <div style="flex: 1; min-width: 250px;">
+                <div style="margin-bottom: 16px;">
+                    <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">检测到的套话</h4>
+                    <div id="cliches-list" class="cliches-list">
+                        {% for cliche in analysis.cliches %}
+                        <span class="cliche-tag" onclick="showRewriteSuggestion('{{ cliche }}')">{{ cliche }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-size: 14px; font-weight: 600; margin-bottom: 8px;">HR视角热力图</h4>
+                    <div id="heatmap-container" class="heatmap-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button id="rewrite-btn" class="btn btn-primary" style="width: 100%;">
+        <i class="fas fa-magic"></i>
+        <span>深度改写</span>
+    </button>
+    
+    <div class="modal-overlay" id="rewrite-modal">
+        <div class="modal-content" style="position: relative;">
+            <button class="modal-close" id="close-rewrite">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-title">AI深度改写</div>
+            <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px;">
+                AI将根据职位要求和行业标准，为您生成专业的简历内容
+            </p>
+            <textarea class="resume-editor" style="height: 150px;" placeholder="AI正在分析您的简历..."></textarea>
+            <button class="btn btn-primary" style="width: 100%; margin-top: 16px;">
+                生成改写建议
+            </button>
+        </div>
+    </div>
+{% endblock %}

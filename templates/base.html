@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智聘星途 - {{ title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <canvas id="stars-bg"></canvas>
+    
+    <div class="container">
+        <header>
+            <div class="user-profile">
+                <div class="user-avatar">{{ user.name[0] }}</div>
+                <div class="user-info">
+                    <div class="user-name">{{ user.name }}</div>
+                    <div class="user-level">
+                        <span class="level-badge">Lv.{{ user.level }}</span>
+                        <span>{{ user.points }} 星途积分</span>
+                    </div>
+                </div>
+            </div>
+            <button class="notification-btn">
+                <i class="fas fa-bell"></i>
+            </button>
+        </header>
+        
+        {% block content %}{% endblock %}
+    </div>
+    
+    <nav class="nav-bottom">
+        <div class="nav-item {{ 'active' if current_page == 'index' else '' }}" data-page="index">
+            <i class="fas fa-home"></i>
+            <span>首页</span>
+        </div>
+        <div class="nav-item {{ 'active' if current_page == 'resume' else '' }}" data-page="resume">
+            <i class="fas fa-file-edit"></i>
+            <span>简历</span>
+        </div>
+        <div class="nav-item {{ 'active' if current_page == 'interview' else '' }}" data-page="interview">
+            <i class="fas fa-microphone"></i>
+            <span>面霸</span>
+        </div>
+        <div class="nav-item {{ 'active' if current_page == 'partner' else '' }}" data-page="partner">
+            <i class="fas fa-users"></i>
+            <span>搭子</span>
+        </div>
+        <div class="nav-item {{ 'active' if current_page == 'workshop' else '' }}" data-page="workshop">
+            <i class="fas fa-gamepad"></i>
+            <span>工坊</span>
+        </div>
+        <div class="nav-item {{ 'active' if current_page == 'profile' else '' }}" data-page="profile">
+            <i class="fas fa-user"></i>
+            <span>我的</span>
+        </div>
+    </nav>
+    
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

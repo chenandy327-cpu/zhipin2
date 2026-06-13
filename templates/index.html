@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% set title = "首页" %}
+{% set current_page = "index" %}
+
+{% block content %}
+    <div class="hero-section">
+        <div>
+            <div class="greeting">
+                <span>晚上好，求职宇航员</span>
+                <span class="floating">🚀</span>
+            </div>
+            <p style="color: var(--text-secondary); margin-bottom: 16px;">今日目标：完成3项求职任务，提升匹配度</p>
+        </div>
+        <div id="match-ring"></div>
+    </div>
+    
+    <div class="today-section">
+        <div class="section-title">
+            <i class="fas fa-list-check"></i>
+            <span>今日任务</span>
+        </div>
+        <div class="glass-card">
+            {% for task in tasks %}
+            <div class="task-card" onclick="window.location.href='{{ '/resume' if task.icon == 'edit' else '/interview' if task.icon == 'mic' else '/partner' }}'">
+                <div class="task-icon {{ task.icon }}">
+                    {% if task.icon == 'edit' %}<i class="fas fa-edit"></i>{% endif %}
+                    {% if task.icon == 'mic' %}<i class="fas fa-microphone"></i>{% endif %}
+                    {% if task.icon == 'users' %}<i class="fas fa-users"></i>{% endif %}
+                </div>
+                <div class="task-content">
+                    <div class="task-title">{{ task.title }}</div>
+                    <div class="task-progress-bar">
+                        <div class="task-progress-fill" style="width: {{ task.progress }}%; background: linear-gradient(90deg, #00F0FF, #B026FF);"></div>
+                    </div>
+                </div>
+                <div class="task-reward">+{{ task.reward }}积分</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div>
+        <div class="section-title">
+            <i class="fas fa-briefcase"></i>
+            <span>为你推荐</span>
+            <span style="margin-left: auto; color: var(--text-secondary); font-size: 13px; font-weight: 400;">右滑快速投递</span>
+        </div>
+        <div class="job-cards">
+            {% for job in jobs %}
+            <div class="glass-card job-card">
+                <div class="job-company-logo">{{ job.logo }}</div>
+                <div class="job-position">{{ job.position }}</div>
+                <div class="job-company">{{ job.company }}</div>
+                <div class="job-meta">
+                    <div class="job-match">
+                        <i class="fas fa-percent"></i>
+                        <span>{{ job.match }}%</span>
+                    </div>
+                    {% if job.friendly %}
+                    <span class="job-friendly">0基础友好</span>
+                    {% endif %}
+                </div>
+                <div class="job-salary">{{ job.salary }}</div>
+                <div class="quick-apply">快速投递</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
